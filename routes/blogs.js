@@ -44,19 +44,44 @@ const sampleBlogs = [
     },
   ];
 
-
-
-
-  /* GET users listing. */
+ /* GET users listing. */
 router.get('/', function(req, res, next) {
     res.json({success: true, route: "blogs", message:"welcome to the blogs page"});
   });
 
+  //1. sample blogs listing http response
+router.get('/', function(req, res, next){
+    res.json({success: true, blogs: sampleBlogs,});
+});
 
+//2. GET/blogs/single/:blog, get single title
+router.get('/single/:title', function(req, res, next){
+    //res.send(res.json(sampleBlogs))
+    const singleBlog = sampleBlogs.find((blog)=>{
+        return blog.title === req.params. title
+    })
+    res.json({
+        success: true,
+        blog: singleBlog
+    });
+});
 
+//DELETE route with a singl route param blog TitleToDelete
+router.delete('/delete/:title', function(req,res,next){
+    const blogTitleToDelete = req.params.title
+    const blogIndex = sampleBlogs.findIndex((blog)=>{
+        return blog.title === blogTitleToDelete
+    })
+    sampleBlogs.splice(blogIndex, 1)
+    res.json({
+        success: true
+    });
+});
 
+/* GET users listing. */
+router.get('/', function(req, res, next) {
+    res.json({success: true, route: "blogs", message:"welcome to the blogs page"});
+  });
 
-
-  
 module.exports = router;
 
